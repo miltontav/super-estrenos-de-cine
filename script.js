@@ -1,3 +1,7 @@
+// Configuración de la API
+const API_KEY = '6b2dec73b6697866a50cdaef60ccffcb';
+const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
+
 const arrowLeft = document.querySelector(".arrow_left");
 const hamburger = document.querySelector(".hamburger");
 const NowPlayingMoviesDiv = document.querySelector(".Now_playing_movies_div");
@@ -77,47 +81,67 @@ overlaySideNavabar.addEventListener("click", function () {
 const myApi = "6b2dec73b6697866a50cdaef60ccffcb";
 
 const NowPlaying = async () => {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/movie/now_playing?api_key=680c99274ddab12ffac27271d9445d45&language=en-US&page=1"
-  );
-  const data = await res.json();
-  const NowPlayingmovies = data.results;
-  return NowPlayingmovies;
-};
-
-const TodayTrending = async () => {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/trending/all/day?api_key=6b2dec73b6697866a50cdaef60ccffcb"
-  );
-  const data = await res.json();
-  const trendingtoday = data.results;
-  return trendingtoday;
+  try {
+    const response = await fetch(
+      `${PROXY_URL}https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=es-ES&page=1`,
+      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+    );
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+    return data.results || [];
+  } catch (error) {
+    console.error('Error al cargar películas en cartelera:', error);
+    return [];
+  }
 };
 
 const popularnow = async () => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${myApi}&language=en-US&page=1`
-  );
-  const data = await res.json();
-  const popularnowmovies = data.results;
-  return popularnowmovies;
+  try {
+    const proxyUrl = PROXY_URL;
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+    
+    const response = await fetch(proxyUrl + apiUrl, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error de red: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.results || [];
+  } catch (error) {
+    console.error('Error al cargar las películas populares:', error);
+    return [];
+  }
 };
-const Toprated = async () => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${myApi}&language=en-US&page=1`
-  );
-  const data = await res.json();
 
-  const Topratedmovies = data.results;
-  return Topratedmovies;
+const Toprated = async () => {
+  try {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${myApi}&language=en-US&page=1`;
+    
+    const response = await fetch(proxyUrl + apiUrl, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error de red: ${response.status}`);
+    }
+  const data = await response.json();
+  return data.results || [];
 };
 
 const NowPlayingfun = (movie) => {
   let url = "./movieDetail.html?id=" + encodeURIComponent(movie.id);
   return `<div class="Now_playing_movies" >
-    <a class="posterlink" href=${url}> <img class="poster" data-id="${
+    <a class="posterlink" href="${url}"> <img class="poster" data-id="${
     movie.id
-  }" src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" 
+  }" src="https://image.tmdb.org/t/p/w500/${movie.poster_path}"
         onerror="this.onerror=null;this.src='./resources/D moviesand tv show.png';"
         loading="lazy" alt="${movie.title}"></a>
          <p class="movie_title">${movie.title}</p>
