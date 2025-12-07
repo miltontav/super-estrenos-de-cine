@@ -1,0 +1,10 @@
+# Archivos grandes a ignorar
+*.csv
+*.vsix
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.tar
+*.gz
+.DS_Store
