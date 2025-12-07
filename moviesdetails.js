@@ -92,9 +92,26 @@ const movieLoad = function () {
   });
 };
 
-searchbox.addEventListener("click", function () {
-  location.replace("./search.html");
+// Función para obtener la ruta base correcta
+function getBasePath() {
+  return window.location.hostname === 'miltontav.github.io' ? '/super-estrenos-de-cine' : '';
+}
+
+// Actualizar navegación de búsqueda
+searchbox.addEventListener("click", function (e) {
+  e.preventDefault();
+  window.location.href = `${getBasePath()}/search.html`;
 });
+
+// Actualizar manejo de la URL para obtener el ID de la película
+let fetcid;
+const urlParams = new URLSearchParams(window.location.search);
+fetcid = urlParams.get('id');
+
+if (!fetcid) {
+  // Si no hay ID en la URL, redirigir a la página principal
+  window.location.href = `${getBasePath()}/index.html`;
+}
 
 hamburgerPhone.addEventListener("click", function () {
   sidenavChildContainer.classList.add("sidenav_container_active");

@@ -391,5 +391,7 @@ window.onload = function () {
 };
 
 searchbox.addEventListener("click", function () {
-  location.replace("./search.html");
+  // Use absolute path for GitHub Pages
+  const basePath = window.location.hostname === 'miltontav.github.io' ? '/super-estrenos-de-cine' : '';
+  window.location.href = `${basePath}/search.html`;
 });
