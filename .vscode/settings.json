@@ -9,5 +9,6 @@
     },
     "cSpell.words": [
         "moviedetail"
-    ]
+    ],
+    "svn.ignoreMissingSvnWarning": true
 }
